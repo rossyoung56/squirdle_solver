@@ -1,0 +1,1 @@
+# squirdle_solver
