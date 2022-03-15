@@ -25,10 +25,9 @@ def play(filename: str, encoding: str) -> int:
         for i in range(1, len(guess_item)):
             print(guess_item[i], end=' ')
         print()
-        result = check_guess(dex, solution, guess)
+        result = check_guess(dex, solution, guess_item)
         print_result(result, guess_item.type_1, guess_item.type_2)
-        if result[GEN] == 0 and result[TYPE1] == 0 and result[TYPE2] == 0 \
-                and result[HEIGHT] == 0 and result[WEIGHT] == 0:
+        if min(result) == 0 and max(result) == 0:
             print('You win!')
             return 8 - attempts
 
@@ -38,13 +37,13 @@ def play(filename: str, encoding: str) -> int:
     return 0
 
 
-def pick_solution(dex: np.recarray) -> str:
-    return dex[random.randint(0, len(dex))].name
+def pick_solution(dex: np.recarray) -> np.record:
+    return dex[random.randint(0, len(dex))]
 
 
-def check_guess(dex: np.recarray, solution: str, guess: str) -> Tuple[int, int, int, int, int]:
-    solution_item = dex[dex.name == solution][0]
-    guess_item = dex[dex.name == guess][0]
+def check_guess(dex: np.recarray, solution: np.record, guess: np.record) -> Tuple[int, int, int, int, int]:
+    solution_item = dex[dex.name == solution.name][0]
+    guess_item = dex[dex.name == guess.name][0]
     result = [0, -1, -1, 0, 0]
 
     if solution_item.generation > guess_item.generation:
