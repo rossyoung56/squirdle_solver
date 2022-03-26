@@ -1,10 +1,11 @@
 import itertools
 import math
-from typing import Tuple
+from util import function_time
 
 import numpy as np
 
 
+@function_time
 def filter_dex(dex: np.recarray, guess: np.record,
                gen_operation: int, type_1_operation: int, type_2_operation: int,
                height_operation: int, weight_operation: int) -> np.recarray:
@@ -53,6 +54,7 @@ def filter_dex(dex: np.recarray, guess: np.record,
     return dex[gen_filter & type_1_filter & type_2_filter & height_filter & weight_filter]
 
 
+@function_time
 def calculate_entropy(dex: np.recarray, guess: np.record) -> float:
     total = dex.size
     entropy = 0
@@ -65,6 +67,7 @@ def calculate_entropy(dex: np.recarray, guess: np.record) -> float:
     return entropy
 
 
+@function_time
 def select_guess(dex: np.recarray) -> np.record:
     max_entropy = -1
     max_entropy_guess = None
@@ -79,13 +82,13 @@ def select_guess(dex: np.recarray) -> np.record:
 
 def main() -> None:
     dex = np.recfromcsv('resources/pokedex.csv', encoding='utf-8')
-    dex = dex[dex.generation == 3]
-    entropies = []
-    for guess in dex:
-        entropy = calculate_entropy(dex, guess)
-        entropies.append((guess.name, entropy))
-
-    print(sorted(entropies, key=lambda entry: entry[1], reverse=True), sep='\n')
+    # dex = dex[dex.generation == 3]
+    # entropies = []
+    # for guess in dex:
+    #     entropy = calculate_entropy(dex, guess)
+    #     entropies.append((guess.name, entropy))
+    #
+    # print(sorted(entropies, key=lambda entry: entry[1], reverse=True), sep='\n')
 
     print(select_guess(dex))
 

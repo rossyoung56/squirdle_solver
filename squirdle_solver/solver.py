@@ -1,9 +1,11 @@
 import game
 import entropy
+from util import function_time
 
 import numpy as np
 
 
+@function_time
 def solve(dex: np.recarray, solution: np.record) -> int:
     attempts = 8
     while attempts > 0:
